@@ -40,8 +40,12 @@ function App() {
       const place = AVAILABLE_PLACES.find((place) => place.id === id);
       return [place, ...prevPickedPlaces];
     });
+   
+    const storedIds = JSON.parse(localStorage.getItem("selectedPlaces")) || [];
+    if (storedIds.indexOf(id) === -1) {
+      localStorage.setItem("selectedPlaces", JSON.stringif([id, ...storedIds]));
+    }
   }
-
   function handleRemovePlace() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
@@ -75,8 +79,8 @@ function App() {
         />
         <Places
           title="Available Places"
-          fallbackText={"Sorting places by distance...."}
           places={availablePlaces}
+          fallbackText={"Sorting places by distance...."}
           onSelectPlace={handleSelectPlace}
         />
       </main>
